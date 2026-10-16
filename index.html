@@ -31,10 +31,7 @@ summary{cursor:pointer;list-style:none}summary::-webkit-details-marker{display:n
 .chips{display:flex; flex-wrap:wrap;gap:6px;margin:6px 0}.chip{padding:6px 10px;border-radius:99px;border:1px solid var(--bd); background:var(--card);color:var(--tx); font-size:13px}.chip.on{background:var(--ok);color:#fff;border-color:var(--ok)}
 .mu{color:var(--mu); font-size: 13px}.y{color:var(--no); text-decoration:none;font-weight:600}li{margin:3px 0}ul{padding-left:18px;margin:6px 0}
 .x{background:none;border:0;color:var(--no); font-size:18px}
-#chb{position:fixed; right: 14px;bottom:calc(16px + env(safe-area-inset-bottom, 0px));z-index:20;border:0;border-radius:99px;padding:12px 16px;background:var(--ac);color:#fff; font:600 15px system-ui;box-shadow:0 4px 14px #0004}
-#chp{display:none;position:fixed;left:0;right:0;bottom:0;max-width:640px;margin:auto;height:72%;z-index:30;background:var(--bg); border:1px solid var(--bd); border-radius: 18px 18px 0 0;padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)); flex-direction:column}
-#chp.on{display:flex}#cms{flex:1;overflow:auto;display: flex; flex-direction:column;gap:6px;padding:6px 0}
-.m{padding:8px 11px;border-radius: 14px; max-width:88%;white-space: pre-wrap;font-size:15px}.m.u{align-self:flex-end;background:var(--ac);color:#fff}.m.a{align-self:flex-start; background:var(--chip)}.done{text-decoration:line-through;color:var(--mu)}
+.done{text-decoration:line-through;color:var(--mu)}
 </style>
 </head>
 <body>
@@ -43,38 +40,7 @@ summary{cursor:pointer;list-style:none}summary::-webkit-details-marker{display:n
 <div class="tip" id="tip"></div>
 <nav id="nav"></nav>
 <div id="app"></div>
-<button id="chb" onclick="cp()">Chef Che</button>
-<div id="chp">
-  <div class="row sp">
-    <b>Chef Che tu ayudante de cocina</b>
-    <button class="x" onclick="cfgT()">⚙️</button>
-    <button class="x" onclick="cp()">X</button>
-  </div>
-  <div id="cfg" class="card" style="display:none">
-    <b>Conexión con Gemini</b>
-    <p class="mu">Pegá tu clave de Google AI Studio. Queda guardada solo en este celular.</p>
-    <input id="gk" type="password" placeholder="Clave de Gemini (empieza con AIza...)" autocomplete="off">
-    <input id="gm" placeholder="Modelo (por defecto: gemini-flash-latest)">
-    <button class="btn" onclick="cfgS()">Guardar</button>
-    <p class="mu" style="margin-top:10px"><b>Copia de seguridad</b></p>
-    <div class="row">
-      <button class="btn g" onclick="bkO()">Guardar copia</button>
-      <label class="btn g">↑ Restaurar<input type="file" accept="application/json" style="display:none" onchange="bkl(this.files[0])"></label>
-    </div>
-  </div>
-  <div id="cms"></div>
-  <div class="chips">
-    <button class="chip" onclick="sq('¿Con qué puedo reemplazar lo que me falta?')">Reemplazos</button>
-    <button class="chip" onclick="sq('¿Cómo sé que está listo?')">Punto justo</button>
-    <button class="chip" onclick="sq('Agregá a esta receta lo que le falte y anotá lo que tengo que comprar')">+ Completar receta</button>
-  </div>
-  <div class="row">
-    <input id="ci" placeholder="Preguntale a Chef Che..." style="flex:1;width:auto" onkeydown="if(event.key=='Enter')send()">
-    <button class="btn g" id="mic" onclick="mic()">🎤</button>
-    <button class="btn g" id="spk" onclick="spk()">🔊</button>
-    <button class="btn" onclick="send()">></button>
-  </div>
-</div>
+
 <script>
 const R=[
 ["Asado de tira y vacío","Carnes","carne de asado, vacío, chorizo, morcilla, chinchulines, carbón, chimichurri", "Prender brasas 40 min. Cocinar a fuego bajo 1.5-2 h, primero el lado del hueso. Sal gruesa al final de cada lado. Chorizo y morcilla al principio como picada."],
@@ -342,137 +308,23 @@ function saveM(){
   save();D={n:"",st:"",yt:"",q:"",ing:[],f:""};open.clear();cat="Mis recetas";tab="rec";draw();
 }
 
-let cur=-1,H=[], busy=false,greeted=false;
+function editM(id){
+  const m=S.mine.find(x=>x.id==id); if(!m)return;
+  D={id:m.id, n:m.n, st:m.st, q:m.q||"", yt:m.yt||"", ing:[...m.ing], f:""};
+  tab="mis";draw();
+}
+
+function delM(id){
+  if(!confirm("¿Borrar esta receta?"))return;
+  S.mine=S.mine.filter(x=>x.id!=id); save(); draw();
+}
+
+let cur=-1;
 function tgl(d,i){if(d.open){open.add(i); cur=i}else open.delete(i)}
 
-function cp(){
-  $("chp").classList.toggle("on");
-  if(!greeted) {
-    greeted=true;
-    cmsg("a","¡Hola! Soy Chef Che. Abrí una receta y preguntame lo que quieras mientras cocinás. Si le falta algo, se lo agrego yo.");
-  }
-}
-
-function cmsg(r,t){
-  const d=document.createElement("div");d.className="m "+r;d.textContent=t;$("cms").appendChild(d); $("cms").scrollTop=1e9;return d;
-}
-
-function sq(t){$("ci").value=t;send()}
-const fr=n=>{n=String(n).toLowerCase();return recs.find(r=>r.n.toLowerCase()==n)||recs.find(r=>r.n.toLowerCase().includes(n))};
-const upd=()=>{save();draw()};
-const ovf=n=>S.ov[n]=S.ov[n]||{ing:[],note:""};
-
-const TL=[
-{name:"agregar_ingrediente_a_receta", description:"Agrega a una receta un ingrediente que le faltaba.", inputSchema:{type:"object", properties: {receta:{type:"string"},ingrediente:{type:"string"}},required:["receta", "ingrediente"]},execute:({receta, ingrediente})=>{const r=fr(receta);if(!r)throw new Error("receta no encontrada"); const x=clean(ingrediente); if(!r.ing.includes(x))ovf(r.n).ing.push(x);if(!alling.includes(x))S.extra.push(x);upd();return "agregado"}},
-{name:"agregar_nota_a_receta", description:"Agrega un consejo, cantidad o paso que faltaba al final de una receta.", inputSchema:{type:"object", properties: {receta:{type:"string"},nota:{type:"string"}}, required:["receta","nota"]}, execute:({receta, nota})=>{const r=fr(receta); if(!r)throw new Error("receta no encontrada"); const o=ovf(r.n); o.note+=(o.note?" ":"")+nota;upd();return "agregado"}},
-{name:"anotar_compras", description:"Crea un check list de compras en la pestaña Notas.", inputSchema: {type:"object", properties: {titulo: {type:"string"},items: {type:"array", items:{type:"string"}}}, required:["items"]}, execute:({titulo,items})=>{S.notes.unshift({id:Date.now(),type:"list", title:titulo||"Comprar (Chef Che)", due:"", items:items.map(t=>({t:String(t), d:false}))});upd();return "anotado"}},
-{name:"marcar_despensa", description:"Marca ingredientes como que la persona los tiene o ya no los tiene.", inputSchema: {type:"object", properties: {items: {type:"array", items: {type:"string"}},tengo:{type:"boolean"}}, required: ["items", "tengo"]}, execute:({items, tengo})=>{items.map(clean).forEach(x=>{if(!alling.includes(x))S.extra.push(x); S.have=S.have.filter(y=>y!=x);if(tengo)S.have.push(x)});upd();return "ok"}},
-{name:"crear_receta", description:"Guarda una receta nueva en Mis recetas.", inputSchema:{type:"object",properties:{nombre:{type:"string"}, pasos:{type:"string"}, cantidades:{type:"string"}, ingredientes: {type:"array", items:{type:"string"}}},required:["nombre","pasos", "ingredientes"]}, execute:({nombre, pasos, cantidades, ingredientes})=>{const g=[...new Set(ingredientes.map(clean).filter(Boolean))];g.forEach(x=>{if(!alling.includes(x))S.extra.push(x)});S.mine.unshift({id:Date.now(),n:nombre,st:pasos, q:cantidades||"",yt:"",ing:g});upd();return "creada"}},
-{name:"ver_receta", description:"Devuelve los datos de cualquier receta de la app.", inputSchema:{type:"object", properties: {nombre:{type:"string"}}, required:["nombre"]},execute:({nombre})=>{const r=fr(nombre); return r?JSON.stringify({n:r.n,ing:r.ing,q:r.q||"",st:r.st}):"no existe"}}
-];
-
-function ctx(){
-  const r=recs[cur];
-  return "Receta que está mirando ahora: "+(r?r.n+" | ingredientes: "+r.ing.map(x=>x+(has(x)?" (tiene)":" (le falta)")).join(", ")+" | cantidades: "+(r.q||"-")+" | pasos: "+r.st:"ninguna abierta")+"\nDespensa: "+((S.have||[]).join(", ")||"vacía")+"\nRecetas de la app: "+recs.map(x=>x.n).join("; ");
-}
-
-const SYS="Sos Chef Che, ayudante de cocina argentina, cálida y práctica. Hablás en español rioplatense (voseo). La persona está cocinando con las manos ocupadas: respondé corto (máximo 4 oraciones o pasos cortos), sin títulos. Si a una receta le falta un ingrediente, cantidad o paso, usá las herramientas para agregarlo vos misma y avisalo en una línea. Si necesita comprar algo, anotalo con anotar_compras. No inventes recetas que la app no tenga sin avisar.";
-
-const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-let talk=false,rec=null;
-
-function spk(){talk=!talk;$("spk").textContent=talk?"🔊":"🔇";if(!talk&&window.speechSynthesis)speechSynthesis.cancel()}
-function say(t){if(!talk||!t||!window.speechSynthesis)return; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t.replace(/[*_#]/g,""));u.lang="es-AR"; speechSynthesis.speak(u)}
-
-function mic(){
-  if(!SR) return cmsg("a", "Tu navegador no tiene dictado por voz. Usá el micrófono de tu teclado.");
-  if(rec){rec.stop();return}
-  rec=new SR();rec.lang="es-AR";
-  rec.onresult=e=>{$("ci").value=e.results[0][0].transcript;send()};
-  rec.onerror=e=>cmsg("a","No pude usar el micrófono ("+(e.error||"error")+"). Probá con el micrófono de tu teclado.");
-  rec.onend=()=>{rec=null; $("mic").textContent="🎤"};
-  try{$("mic").textContent="🔴"; rec.start()}catch(e){rec=null; $("mic").textContent="🎤"}
-}
-
 function misView(){
-  return `<div class="card"><b>Importar receta automáticamente</b><p class="mu">Pegá el texto de una receta, la descripción o la transcripción de un video de YouTube (con el link, si querés). Yo armo todo y vos revisás antes de guardar.</p><textarea id="imp" rows="5" placeholder="Pegá la receta acá..."></textarea><button class="btn" id="impb" onclick="imp()">Armar receta</button> <span class="mu" id="ims"></span></div><div class="card"><b>${D.id?"Editando receta":"Nueva receta propia"}</b><input placeholder="Nombre de la receta" value="${esc(D.n)}" oninput="D.n=this.value"><textarea rows="4" placeholder="Pasos / cómo se hace" oninput="D.st=this.value">${esc(D.st)}</textarea><textarea rows="2" placeholder="Cantidades (ej: 500 g de harina, 2 huevos...)" oninput="D.q=this.value">${esc(D.q)}</textarea><input placeholder="Link de YouTube (opcional)" value="${esc(D.yt)}" oninput="D.yt=this.value"><p class="mu">Ingredientes elegidos: <b id="dc">${D.ing.length}</b>. Tocá para marcar; si no está, escribilo y guardalo como nuevo (queda para tu despensa y tus listas).</p><input id="df" placeholder="Buscá o escribí un ingrediente" value="${esc(D.f)}" oninput="D.f=this.value;dl()"><div class="chips" id="dch">${dc()}</div><button class="btn" onclick="saveM()">Guardar receta</button></div><b>Mis recetas (${(S.mine||[]).length})</b>${(S.mine||[]).length?recs.filter(r=>r.mine).map(recipeCard).join(""):`<p class="mu">Todavía no cargaste ninguna.</p>`}`;
+  return `<div class="card"><b>${D.id?"Editando receta":"Nueva receta propia"}</b><input placeholder="Nombre de la receta" value="${esc(D.n)}" oninput="D.n=this.value"><textarea rows="4" placeholder="Pasos / cómo se hace" oninput="D.st=this.value">${esc(D.st)}</textarea><textarea rows="2" placeholder="Cantidades (ej: 500 g de harina, 2 huevos...)" oninput="D.q=this.value">${esc(D.q)}</textarea><input placeholder="Link de YouTube (opcional)" value="${esc(D.yt)}" oninput="D.yt=this.value"><p class="mu">Ingredientes elegidos: <b id="dc">${D.ing.length}</b>. Tocá para marcar; si no está, escribilo y guardalo como nuevo.</p><input id="df" placeholder="Buscá o escribí un ingrediente" value="${esc(D.f)}" oninput="D.f=this.value;dl()"><div class="chips" id="dch">${dc()}</div><button class="btn" onclick="saveM()">Guardar receta</button></div><b>Mis recetas (${(S.mine||[]).length})</b>${(S.mine||[]).length?recs.filter(r=>r.mine).map(recipeCard).join(""):`<p class="mu">Todavía no cargaste ninguna.</p>`}`;
 }
-
-function draw(){
-  build();nav();
-  $("app").innerHTML={rec:recView,mis:misView,pan:panView,not:notView,his:hisView}[tab]();
-}
-draw();
-</script>
-
-<script>
-/* ===== Conexión con Gemini ===== */
-const GK="cfa_key",GM="cfa_model", GDEF="gemini-flash-latest";
-const gkey=()=>{try{return localStorage.getItem(GK)||""}catch(e){return ""}};
-const gmodel=()=>{try{return localStorage.getItem(GM)||GDEF}catch(e){return GDEF}};
-
-const up=s=>Array.isArray(s)?s.map(up):s&&typeof s=="object"?Object.fromEntries(Object.entries(s).map(([k,v])=>[k,k=="type"&&typeof v=="string"?v.toUpperCase():up(v)])):s;
-
-async function gem(contents, o={}){
-  const k=gkey();if(!k)throw {code:"nokey"};
-  const body={contents, generationConfig:{}};
-  if(o.sys)body.systemInstruction={parts:[{text:o.sys}]};
-  if(o.json)body.generationConfig.responseMimeType="application/json";
-  if(o.tools)body.tools=[{functionDeclarations:o.tools.map(t=>({name:t.name, description:t.description, parameters:up(t.inputSchema)}))}];
-  let r,j;
-  try{
-    r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+encodeURIComponent(gmodel())+":generateContent", {method:"POST", headers:{"Content-Type":"application/json","x-goog-api-key":k}, body:JSON.stringify(body)});
-    j=await r.json();
-  }catch(e){throw {code:"net", message: "Sin conexión a internet."}}
-  if(!r.ok)throw {code:r.status==429?"rate_limited":(r.status==400||r.status==403||r.status==404)?"badkey":"err", message: (j.error&&j.error.message)||("Error "+r.status)};
-  return j;
-}
-
-async function run(contents,o){
-  for(let i=0;i<5;i++){
-    const j=await gem(contents, o); const c=j.candidates&&j.candidates[0];
-    const parts=(c&&c.content&&c.content.parts)|| []; const calls=parts.filter(p=>p.functionCall);
-    if(!calls.length)return parts.map(p=>p.text||"").join("").trim();
-    contents.push({role:"model", parts}); const resp=[];
-    for(const p of calls){
-      const t=o.tools.find(x=>x.name==p.functionCall.name);let out;
-      try{out={result:t?await t.execute(p.functionCall.args||{}):"herramienta desconocida"}}catch(e){out={error:String(e.message||e)}}
-      resp.push({functionResponse:{name:p.functionCall.name, response:out}});
-    }
-    contents.push({role:"user", parts:resp});
-  }
-  return "Listo✔";
-}
-
-async function send(){
-  const inp=$("ci"),t=inp.value.trim();if(!t||busy)return;inp.value="";cmsg("u",t);
-  if(!gkey()){cmsg("a","Primero cargá tu clave de Gemini en ⚙️ (arriba a la derecha)."); $("cfg").style.display="block";return}
-  busy=true;const out=cmsg("a", "Pensando...");
-  H.push({role:"user", content:t});H=H.slice(-12); while (H[0]&&H[0].role!="user")H.shift();
-  const ct=H.map((m,i)=>({role:m.role=="user"?"user":"model", parts:[{text:i==H.length-1?ctx()+"\n\nMENSAJE: "+t:m.content}]}));
-  try{
-    const r=await run(ct, {sys:SYS, tools: TL}); 
-    out.textContent=r||"Listo ✔";say(r); H.push({role:"assistant", content:r||"Listo"});
-  }catch(e){
-    out.textContent=e.code=="rate_limited"?"Llegaste al límite gratis por ahora. Esperá un rato y probá de nuevo.":e.code=="badkey"?"Gemini rechazó la clave o el modelo ("+(e.message||"")+"). Revisá.":"Uy, no pude responder. "+(e.message||"");H.pop();
-  }
-  busy=false;
-}
-
-async function imp(){
-  const t=$("imp").value.trim(),st=$("ims"); if(t.length<20) return st.textContent="Pegá más texto.";
-  if(!gkey()) return st.textContent="Primero cargá tu clave en ⚙️ (dentro de Chef Che).";
-  $("impb").disabled=true;st.textContent="Armando...";
-  try{
-    const j=await gem ([{role:"user", parts: [{text: `Extraé la receta del texto. Respondé SOLO JSON: {"n":"nombre","st":"pasos en 2 a 6 oraciones cortas, en español rioplatense","q":"cantidades como texto, o vacío","ing":["ingredientes en minúscula, sin cantidades"]}. Si un ingrediente equivale a uno de esta lista, usá exactamente ese nombre: ${alling.join(", ")}. Ignorá sal y agua.\n\nTEXTO:\n${t.slice(0,12000)}` }]}], {json:true});
-    const r=JSON.parse(j.candidates[0].content.parts.map(p=>p.text||"").join("").replace(/```json|```/g,""));
-    D.n=r.n||"";D.st=r.st||"";D.q=r.q||"";const m=t.match(/https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/\S+/);if(m)D.yt=m[0];
-    D.ing=[...new Set((r.ing||[]).map(clean).filter(Boolean))]; D.ing.forEach(x=>{if(!alling.includes(x))S.extra.push(x)});save();tab="mis";draw(); $("df").scrollIntoView({block:"center"});
-  }catch(e){st.textContent="No pude armarla: "+(e.message||e.code||"probá de nuevo"); $("impb").disabled=false;}
-}
-
-function cfgT(){const c=$("cfg");c.style.display=c.style.display=="block"?"none":"block";$("gk").value=gkey();$("gm").value=gmodel()}
-function cfgS(){try{localStorage.setItem(GK,$("gk").value.trim()); localStorage.setItem(GM,$("gm").value.trim()||GDEF)}catch(e){} $("cfg").style.display="none";cmsg("a","¡Guardado! Ya podés preguntarme.")}
 
 function bkO(){
   const b=new Blob([JSON.stringify(S)], {type:"application/json"}),a=document.createElement("a");
@@ -488,6 +340,12 @@ function bkl(f){
     }catch(e){alert("Ese archivo no es una copia válida.")}
   };r.readAsText(f);
 }
+
+function draw(){
+  build();nav();
+  $("app").innerHTML={rec:recView,mis:misView,pan:panView,not:notView,his:hisView}[tab]();
+}
+draw();
 
 if("serviceWorker" in navigator)addEventListener("load", ()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script>
