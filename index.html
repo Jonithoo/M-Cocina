@@ -54,12 +54,7 @@ summary{cursor:pointer;list-style:none}summary::-webkit-details-marker{display:n
     <b>Conexión con Gemini</b>
     <p class="mu">Pegá tu clave de Google AI Studio. Queda guardada solo en este celular.</p>
     <input id="gk" type="password" placeholder="Clave de Gemini (empieza con AIza...)" autocomplete="off">
-    <p class="mu">Seleccioná el modelo:</p>
-    <select id="gm">
-      <option value="gemini-1.5-flash">gemini-1.5-flash (Estable / Rápido)</option>
-      <option value="gemini-2.5-flash">gemini-2.5-flash (Avanzado)</option>
-      <option value="gemini-1.5-pro">gemini-1.5-pro (Máxima capacidad)</option>
-    </select>
+    <input id="gm" placeholder="Modelo (por defecto: gemini-flash-latest)">
     <button class="btn" onclick="cfgS()">Guardar</button>
     <p class="mu" style="margin-top:10px"><b>Copia de seguridad</b></p>
     <div class="row">
@@ -161,4 +156,340 @@ const R=[
 ["Sándwich de milanesa completo", "Rápidas","nalga, pan francés, lechuga, tomate, huevos, queso muzzarella","Milanesa dorada en pan con lechuga, tomate, huevo y queso."],
 ["Tostado de jamón y queso", "Rápidas","pan de miga, jamón cocido, queso muzzarella, manteca", "Armar el sándwich y tostar en sartén con manteca hasta que derrita el queso."],
 ["Pionono salado", "Rápidas","pionono, jamón cocido, queso cremoso, tomate, huevos, mayonesa","Untar el pionono con queso, rellenar con jamón, tomate y huevo duro, y enrollar."],
-["Ñoquis de calabaza", "P
+["Ñoquis de calabaza", "Pastas","zapallo, harina, huevos, queso rallado, salsa de tomate", "Puré de zapallo con harina y huevo. Cortar y hervir hasta que floten."],
+["Fideos con crema y jamón", "Pastas", "fideos, crema de leche, jamón cocido, queso rallado", "Mezclar los fideos hervidos con crema caliente y jamón en tiras."],
+["Fideos al pesto", "Pastas", "fideos, albahaca, ajo, queso rallado, nueces, aceite de oliva", "Procesar albahaca, ajo, nueces y queso con aceite. Mezclar con los fideos."],
+["Capeletinis en caldo", "Pastas","capeletinis, caldo, queso rallado", "Hervir en caldo 5 min y servir con queso rallado."],
+["Ravioles caseros de ricota", "Pastas","harina, huevos, ricota, espinaca, queso rallado, salsa de tomate", "Masa de harina y huevos, rellenar con ricota y espinaca. Cortar y hervir 4 min."],
+["Polenta con estofado", "Pastas","polenta, salsa de tomate, carne picada, queso rallado", "Cocinar la polenta 5 min, servir con salsa de carne y queso."],
+["Ensalada rusa", "Ensaladas","papas, zanahoria, arvejas, huevos, mayonesa","Hervir y cortar en cubos. Mezclar con mayonesa."],
+["Ensalada criolla", "Ensaladas", "tomate, cebolla, morrón, perejil, aceite de oliva","Cortar todo en cubos y condimentar con aceite y vinagre."],
+["Ensalada mixta", "Ensaladas", "lechuga, tomate, cebolla, zanahoria, huevos", "Mezclar y condimentar con sal, aceite y limón."],
+["Pastafrola","Postres","harina, manteca, huevos, azúcar, dulce de membrillo, limón", "Masa sablée, rellenar con membrillo y hacer enrejado. Hornear 35 min."],
+["Pastelitos de membrillo", "Postres", "tapas de hojaldre, dulce de membrillo, azúcar, huevos", "Rellenar y cerrar, pincelar con huevo y hornear. Bañar con almíbar."],
+["Lemon pie","Postres","galletitas de vainilla, manteca, limón, leche condensada, huevos, azúcar", "Base de galletitas con manteca, crema de limón y merengue. Hornear breve."],
+["Bizcochuelo", "Postres","harina, huevos, azúcar, manteca, leche, polvo de hornear", "Batir huevos con azúcar, sumar harina y hornear 30 min."],
+["Torta de ricota","Postres","ricota, huevos, azúcar, limón, harina, manteca", "Mezclar la crema de ricota, volcar sobre la masa y hornear 45 min."],
+["Ensalada de frutas", "Postres", "naranja, banana, manzana, durazno, azúcar","Cortar las frutas, mezclar con jugo de naranja y azúcar."],
+["Bizcochitos de grasa","Merienda","harina, grasa, sal, agua", "Amasar, estirar y plegar para hojaldrar. Cortar y hornear."],
+["Pan casero", "Merienda","harina, levadura, sal, agua","Amasar, dejar levar 1 h, formar y hornear 35 min."],
+["Mate cocido con tostadas", "Merienda", "mate cocido, pan, manteca, dulce de leche", "Tostar el pan, untar con manteca y dulce de leche."],
+["Tortilla santiagueña", "Tortillas", "harina, grasa, sal, agua", "Amasar con agua tibia y grasa, dejar reposar. Estirar discos y cocinar en plancha o sartén hasta que se doren."],
+["Tortillas al rescoldo con chicharrones", "Tortillas","harina, grasa, chicharrones, sal, agua","Amasar con chicharrones, formar discos y cocinar entre las brasas, sacudiéndolas al sacar."],
+["Tortillas fritas de zapallo","Tortillas","zapallo, harina, huevos, azúcar, aceite", "Mezclar el puré de zapallo con harina y huevo. Freír cucharadas y servir con azúcar."],
+["Tortilla de papas y chorizo","Tortillas","papas, huevos, cebolla, chorizo, aceite", "Freír papas, cebolla y chorizo en rodajas. Mezclar con huevos y cuajar de ambos lados."],
+["Locro de trigo", "Guisos", "trigo pelado, porotos, zapallo, panceta, chorizo colorado, falda, cebolla","Remojar trigo y porotos la noche anterior. Hervir con las carnes 3 h, sumar el zapallo al final."],
+["Locro express (olla a presión)","Guisos", "maíz blanco, porotos, zapallo, panceta, chorizo colorado, falda, cebolla de verdeo, pimentón","Con remojo previo, cocinar todo en olla a presión 45 min. Terminar con salsa de verdeo y pimentón."],
+["Carne a la riojana", "Regionales", "carne, papas, cebolla, morrón, tomate, vino tinto, comino, pimentón, ají molido, orégano", "Dorar la carne en trozos, rehogar cebolla y morrón, sumar tomate, vino y especias. Cocinar tapado 1.5 h y agregar las papas al final."],
+["Pechito de cerdo a la riojana", "Regionales","pechito de cerdo, cebolla, morrón, tomate, vino tinto, ajo, orégano", "Dorar el pechito, sumar vegetales, vino y orégano. Cocinar tapado a fuego bajo 2 h."],
+["Puré de papas clásico", "Purés","papas, leche, manteca, nuez moscada", "Hervir las papas, pisar y mezclar con leche tibia y manteca."],
+["Puré de calabaza (zapallo)","Purés", "zapallo, manteca, nuez moscada, queso rallado", "Hervir o hornear el zapallo, pisar y mezclar con manteca y nuez moscada."],
+["Puré mixto de papa y calabaza","Purés","papas, zapallo, leche, manteca", "Hervir ambas verduras, pisar y unir con leche y manteca."],
+["Puré de batata", "Purés","batata, manteca, leche, nuez moscada", "Hervir la batata, pisar y mezclar con manteca y leche."],
+["Puré de papas con queso gratinado", "Purés","papas, leche, manteca, queso rallado, queso muzzarella","Hacer el puré, cubrir con quesos y gratinar 10 min."],
+["Puré de zanahoria","Purés", "zanahoria, papas, manteca, leche", "Hervir zanahoria y papa, pisar con manteca y leche."],
+["Puré de mandioca","Purés","mandioca, manteca, leche, queso cremoso", "Hervir la mandioca hasta que esté tierna, pisar con manteca, leche y queso."],
+["Puré de coliflor","Purés","coliflor, papas, manteca, leche", "Hervir coliflor y papa, procesar con manteca y leche."],
+["Pollo al disco con verduras", "Al disco", "pollo, papas, cebolla, morrón, zanahoria, vino blanco, ajo", "Dorar el pollo en el disco, sumar verduras y vino. Tapar y cocinar 50 min a fuego medio."],
+["Carne al disco con verduras", "Al disco","carne, papas, cebolla, morrón, zanahoria, vino tinto, salsa de tomate", "Sellar la carne, sumar verduras, vino y salsa. Cocinar tapado 1.5 h."],
+["Bondiola al disco", "Al disco", "bondiola, papas, cebolla, morrón, vino tinto, miel, ajo", "Dorar la bondiola, agregar verduras, vino y miel. Cocinar tapado 2 h."],
+["Paella al disco","Al disco","arroz, pollo, mariscos, morrón, arvejas, cebolla, pimentón, caldo", "Dorar pollo y verduras, sumar arroz y caldo con pimentón, agregar los mariscos al final. Cocinar 25 min."],
+["Papas al disco con panceta", "Al disco","papas, panceta, cebolla, morrón, queso cremoso", "Dorar panceta y cebolla, sumar papas en rodajas. Tapar y cocinar 30 min, agregando queso al final."],
+["Guiso de lentejas al disco", "Al disco","lentejas, chorizo colorado, panceta, papas, zanahoria, cebolla, morrón, salsa de tomate", "Rehogar, sumar lentejas, verduras y agua. Cocinar tapado 45 min."],
+["Pizza al disco", "Al disco","harina, levadura, salsa de tomate, queso muzzarella, orégano, aceitunas", "Estirar la masa en el disco aceitado, cubrir y cocinar tapado a fuego medio 15-20 min."]
+];
+
+const DAYS=["Domingo de asado, pastas caseras o ñoquis en familia.","Lunes liviano: tarta, pascualina o lo que sobró del domingo.","Martes de milanesas o un guiso rápido.", "Miércoles de empanadas o pollo al horno.","Jueves de pastas: fideos con tuco o ravioles.", "Viernes de pizza, fainá o empanadas.", "Sábado: pizza casera, choripán o provoleta con amigos."];
+const Q=["asado","tarta","milanesa","empanadas","pasta","pizza","pizza"];
+let S={have:[], notes:[],hist:[],mine:[],extra:[],ov:{}},tab="rec",q="",cat="Todas", only=false,open=new Set();
+
+try{const s=localStorage.getItem("cfa1"); if(s)S=Object.assign(S,JSON.parse(s))}catch(e){}
+const save=()=>{try{localStorage.setItem("cfa1", JSON.stringify(S))}catch(e){}};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+
+const base=R.map((r,i)=>({i,n:r[0],c:r[1],ing:r[2].split(",").map(x=>x.trim()),st:r[3]}));
+
+let recs=[],alling=[],cats=[],D={n:"",st:"",yt:"",q:"",ing:[],f:""};
+
+function build(){
+  recs=base.concat((S.mine||[]).map((m,k)=>({i:base.length+k,n:m.n,c:"Mis recetas",ing:m.ing,st:m.st,yt:m.yt,q:m.q,id:m.id, mine:1})));
+  recs=recs.map(r=>({...r}));
+  recs.forEach(r=>{
+    const o=(S.ov||{})[r.n];
+    if(o){
+      r.ing=[...new Set([...r.ing, ...(o.ing||[])])];
+      if(o.note)r.st+=" "+o.note;
+    }
+  });
+  alling=[...new Set([...recs.flatMap(r=>r.ing),...(S.extra||[])])].sort((a,b)=>a.localeCompare(b,"es"));
+  cats=["Todas",...new Set(recs.map(r=>r.c))];
+}
+
+const has=x=>(S.have||[]).includes(x);
+const tod=()=>new Date().toISOString().slice(0,10);
+const now=new Date();
+
+$("date").textContent=now.toLocaleDateString("es-AR", {weekday:"long", day:"numeric", month:"long", year:"numeric"});
+
+if(now.getDate()===29){
+  $("tip").textContent="¡Hoy es 29! Toca ñoquis (con un billete bajo el plato)."; 
+  $("tip").onclick=()=>{q="ñoquis";tab="rec";draw()};
+} else {
+  $("tip").textContent=DAYS[now.getDay()]+" (tocá para ver ideas)";
+  $("tip").onclick=()=>{q=Q[now.getDay()];tab="rec";draw()};
+}
+
+const T=[["rec", "Recetas"],["mis","Mías"], ["pan","Despensa"], ["not","Notas"],["his", "Historial"]];
+
+function nav(){
+  $("nav").innerHTML=T.map(t=>`<button class="${tab==t[0]?"on":""}" onclick="tab='${t[0]}';draw()">${t[1]}</button>`).join("");
+}
+
+function recipeCard(r){
+  const miss=r.ing.filter(x=>!has(x)),ok=!miss.length,o=open.has(r.i);
+  const times=(S.hist||[]).filter(h=>h.n==r.n).length;
+  return `<details class="card" ${o?"open":""} ontoggle="tgl(this,${r.i})"><summary><div class="row sp"><b>${esc(r.n)}</b><span class="b ${ok?"ok":miss.length<=2?"":"no"}">${ok?"¡Tenés todo!":"Faltan "+miss.length}</span></div><div class="mu">${r.c}${times?" cocinada "+times+"x":""}</div></summary><ul>${r.ing.map(x=>`<li>${has(x)?"✓":"X"} ${esc(x)}</li>`).join("")}</ul>${r.q?`<p><b>Cantidades:</b> ${esc(r.q)}</p>`:""}<p>${esc(r.st)}</p><div class="row"><a class="y" target="_blank" rel="noopener" href="${esc(r.yt||"https://www.youtube.com/results?search_query="+encodeURIComponent("receta argentina "+r.n))}">Ver en YouTube</a></div><div class="row" style="margin-top:8px">${miss.length?`<button class="btn g" onclick="buy(${r.i})">Anotar lo que falta</button>`:""}<button class="btn ok" onclick="cooked(${r.i})">¡Ya la cociné!</button>${r.mine?`<button class="btn g" onclick="editM(${r.id})">Editar</button><button class="btn g" onclick="delM(${r.id})">Borrar</button>`:""}</div></details>`;
+}
+
+function recView(){
+  let l=recs.filter(r=>(cat=="Todas"||r.c==cat)&&(r.n+" "+r.ing.join(" ")).toLowerCase().includes(q.toLowerCase()));
+  if(only)l=l.filter(r=>r.ing.every(has));
+  l.sort((a,b)=>a.ing.filter(x=>!has(x)).length-b.ing.filter(x=>!has(x)).length);
+  return `<input placeholder="Buscar receta o ingrediente" value="${esc(q)}" oninput="q=this.value;list()"><div class="chips">${cats.map(c=>`<button class="chip ${cat==c?"on":""}" onclick="cat='${c}';draw()">${c}</button>`).join("")}</div><label class="row mu"><input type="checkbox" style="width:auto" ${only?"checked":""} onchange="only=this.checked;draw()"> Mostrar solo lo que puedo cocinar con mi despensa (${(S.have||[]).length} ingredientes)</label><div id="lst">${rl(l)}</div>`;
+}
+
+const rl=l=>l.length?l.map(recipeCard).join(""):'<p class="mu">No hay recetas con ese filtro. Probá sin el check de despensa.</p>';
+
+function list(){
+  let l=recs.filter(r=>(cat=="Todas"||r.c==cat)&&(r.n+" "+r.ing.join(" ")).toLowerCase().includes(q.toLowerCase())).filter(r=>!only||r.ing.every(has));
+  l.sort((a,b)=>a.ing.filter(x=>!has(x)).length-b.ing.filter(x=>!has(x)).length);
+  $("lst").innerHTML=rl(l);
+}
+
+let pq="";
+function panView(){
+  return `<p class="mu">Tocá lo que tenés en casa. Se guarda solo.</p><input placeholder="Filtrar ingredientes" value="${esc(pq)}" oninput="pq=this.value;pl()"><button class="btn g" onclick="S.have=[]; save(); draw()">Vaciar</button> <button class="btn g" onclick="addP()">+ Guardar como ingrediente nuevo</button><div class="chips" id="pl">${pc()}</div>`;
+}
+
+const pc=()=>alling.filter(x=>x.includes(pq.toLowerCase())).map(x=>`<button class="chip ${has(x)?"on":""}" onclick="tg('${x.replace(/'/g,"\\'")}')">${esc(x)}</button>`).join("");
+const pl=()=>$("pl").innerHTML=pc();
+
+function tg(x){
+  S.have=has(x)?S.have.filter(y=>y!=x):[...(S.have||[]),x];
+  save();pl();
+}
+
+function notView(){
+  return `<div class="card"><select id="nt"><option value="text">Nota de texto</option><option value="list">Check list (un ítem por línea)</option></select><input id="ni" placeholder="Título (ej: Comprar para el sábado)"><textarea id="nb" rows="3" placeholder="Escribí acá..."></textarea><select onchange="addS(this)"><option value="">+ Sumar ingrediente guardado a la lista...</option>${alling.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join("")}</select><label class="mu">Recordatorio (opcional)</label><input type="date" id="nd"><button class="btn" onclick="addN()">Guardar</button></div>${(S.notes||[]).length?S.notes.map(noteCard).join(""):'<p class="mu">Sin notas todavía.</p>'}`;
+}
+
+function noteCard(n){
+  const d=n.due,od=d&&d<tod(),td=d==tod();
+  return `<div class="card"><div class="row sp"><b>${esc(n.title||"Nota")}</b><button class="x" onclick="delN(${n.id})">X</button></div>${d?`<span class="b ${od?"no":td?"ok":""}">${td?"HOY":od?"Vencido: ":""}${d.split("-").reverse().join("/")}</span>`:""}${n.type=="list"?n.items.map((it,k)=>`<div class="row"><input type="checkbox" style="width:auto" ${it.d?"checked":""} onchange="ck(${n.id},${k})"><span class="${it.d?"done":""}">${esc(it.t)}</span></div>`).join(""):`<p style="white-space: pre-wrap">${esc(n.text||"")}</p>`}</div>`;
+}
+
+function addN(){
+  const type=$("nt").value,b=$("nb").value.trim(),t=$("ni").value.trim();
+  if(!b&&!t)return;
+  const n={id:Date.now(), type, title:t,due:$("nd").value};
+  if(type=="list")n.items=b.split("\n").map(x=>x.trim()).filter(Boolean).map(x=>({t:x,d:false}));
+  else n.text=b;
+  S.notes.unshift(n);save();draw();
+}
+
+function delN(id){S.notes=S.notes.filter(n=>n.id!=id);save();draw()}
+function ck(id,k){const n=S.notes.find(n=>n.id==id);n.items[k].d=!n.items[k].d;save();draw()}
+function buy(i){
+  const r=recs[i];
+  S.notes.unshift({id:Date.now(), type:"list", title:"Comprar para "+r.n, due:"", items:r.ing.filter(x=>!has(x)).map(x=>({t:x,d:false}))});
+  save();tab="not";draw();
+}
+function cooked(i){S.hist.unshift({n:recs[i].n,d:new Date().toISOString()}); save();alert("¡Anotada en tu historial!"); draw()}
+
+function hisView(){
+  if(!(S.hist||[]).length) return '<p class="mu">Todavía no marcaste ninguna receta como cocinada. Usá el botón al final de cada receta.</p>';
+  return `<p class="mu">${S.hist.length} comidas cocinadas</p>`+S.hist.map((h,k)=>`<div class="card row sp"><div><b>${esc(h.n)}</b><div class="mu">${new Date(h.d).toLocaleDateString("es-AR", {weekday:"short", day:"numeric", month:"short"})}. ${S.hist.filter(x=>x.n==h.n).length}x</div></div><button class="x" onclick="S.hist.splice(${k}, 1); save(); draw()">X</button></div>`).join("");
+}
+
+const clean=s=>s.trim().toLowerCase().replace(/["<>&\\]/g,"");
+function addS(s){if(!s.value)return;$("nt").value="list";const b=$("nb");b.value+=(b.value&&!b.value.endsWith("\n")?"\n":"")+s.value;s.value=""}
+function addP(){const t=clean(pq);if(!t)return alert("Escribí el ingrediente en el filtro de arriba");if(!alling.includes(t))S.extra.push(t);if(!has(t))S.have.push(t);save();pq="";draw()}
+
+const dc=()=>{
+  const f=D.f.toLowerCase().trim();
+  const nw=f&&!alling.includes(clean(f))?`<button class="chip" style="border-style:dashed" onclick="newIng()">+ Agregar "${esc(f)}"</button>`:"";
+  return nw+alling.filter(x=>D.ing.includes(x)||x.includes(f)).map(x=>`<button class="chip ${D.ing.includes(x)?"on":""}" data-x="${esc(x)}" onclick="td(this.dataset.x)">${esc(x)}</button>`).join("");
+};
+
+const dl=()=>{ $("dch").innerHTML=dc(); $("dc").textContent=D.ing.length };
+function td(x){D.ing=D.ing.includes(x)?D.ing.filter(y=>y!=x):[...D.ing,x];dl()}
+
+function newIng(){
+  const t=clean(D.f);if(!t)return;
+  if(!alling.includes(t)){S.extra.push(t); save();build()}
+  if(!D.ing.includes(t)) D.ing.push(t);
+  D.f="";$("df").value="";dl();
+}
+
+function saveM(){
+  const n=D.n.trim();
+  if(!n||!D.ing.length) return alert("Poné un nombre y al menos un ingrediente");
+  const y=D.yt.trim();
+  const m={id:D.id||Date.now(),n,st:D.st.trim()||"(sin pasos anotados)",q:D.q.trim(),yt:/^https?:\/\//.test(y)?y:"",ing:[...D.ing]};
+  if(D.id)S.mine=S.mine.map(x=>x.id==D.id?m:x);
+  else S.mine.unshift(m);
+  save();D={n:"",st:"",yt:"",q:"",ing:[],f:""};open.clear();cat="Mis recetas";tab="rec";draw();
+}
+
+let cur=-1,H=[], busy=false,greeted=false;
+function tgl(d,i){if(d.open){open.add(i); cur=i}else open.delete(i)}
+
+function cp(){
+  $("chp").classList.toggle("on");
+  if(!greeted) {
+    greeted=true;
+    cmsg("a","¡Hola! Soy Chef Che. Abrí una receta y preguntame lo que quieras mientras cocinás. Si le falta algo, se lo agrego yo.");
+  }
+}
+
+function cmsg(r,t){
+  const d=document.createElement("div");d.className="m "+r;d.textContent=t;$("cms").appendChild(d); $("cms").scrollTop=1e9;return d;
+}
+
+function sq(t){$("ci").value=t;send()}
+const fr=n=>{n=String(n).toLowerCase();return recs.find(r=>r.n.toLowerCase()==n)||recs.find(r=>r.n.toLowerCase().includes(n))};
+const upd=()=>{save();draw()};
+const ovf=n=>S.ov[n]=S.ov[n]||{ing:[],note:""};
+
+const TL=[
+{name:"agregar_ingrediente_a_receta", description:"Agrega a una receta un ingrediente que le faltaba.", inputSchema:{type:"object", properties: {receta:{type:"string"},ingrediente:{type:"string"}},required:["receta", "ingrediente"]},execute:({receta, ingrediente})=>{const r=fr(receta);if(!r)throw new Error("receta no encontrada"); const x=clean(ingrediente); if(!r.ing.includes(x))ovf(r.n).ing.push(x);if(!alling.includes(x))S.extra.push(x);upd();return "agregado"}},
+{name:"agregar_nota_a_receta", description:"Agrega un consejo, cantidad o paso que faltaba al final de una receta.", inputSchema:{type:"object", properties: {receta:{type:"string"},nota:{type:"string"}}, required:["receta","nota"]}, execute:({receta, nota})=>{const r=fr(receta); if(!r)throw new Error("receta no encontrada"); const o=ovf(r.n); o.note+=(o.note?" ":"")+nota;upd();return "agregado"}},
+{name:"anotar_compras", description:"Crea un check list de compras en la pestaña Notas.", inputSchema: {type:"object", properties: {titulo: {type:"string"},items: {type:"array", items:{type:"string"}}}, required:["items"]}, execute:({titulo,items})=>{S.notes.unshift({id:Date.now(),type:"list", title:titulo||"Comprar (Chef Che)", due:"", items:items.map(t=>({t:String(t), d:false}))});upd();return "anotado"}},
+{name:"marcar_despensa", description:"Marca ingredientes como que la persona los tiene o ya no los tiene.", inputSchema: {type:"object", properties: {items: {type:"array", items: {type:"string"}},tengo:{type:"boolean"}}, required: ["items", "tengo"]}, execute:({items, tengo})=>{items.map(clean).forEach(x=>{if(!alling.includes(x))S.extra.push(x); S.have=S.have.filter(y=>y!=x);if(tengo)S.have.push(x)});upd();return "ok"}},
+{name:"crear_receta", description:"Guarda una receta nueva en Mis recetas.", inputSchema:{type:"object",properties:{nombre:{type:"string"}, pasos:{type:"string"}, cantidades:{type:"string"}, ingredientes: {type:"array", items:{type:"string"}}},required:["nombre","pasos", "ingredientes"]}, execute:({nombre, pasos, cantidades, ingredientes})=>{const g=[...new Set(ingredientes.map(clean).filter(Boolean))];g.forEach(x=>{if(!alling.includes(x))S.extra.push(x)});S.mine.unshift({id:Date.now(),n:nombre,st:pasos, q:cantidades||"",yt:"",ing:g});upd();return "creada"}},
+{name:"ver_receta", description:"Devuelve los datos de cualquier receta de la app.", inputSchema:{type:"object", properties: {nombre:{type:"string"}}, required:["nombre"]},execute:({nombre})=>{const r=fr(nombre); return r?JSON.stringify({n:r.n,ing:r.ing,q:r.q||"",st:r.st}):"no existe"}}
+];
+
+function ctx(){
+  const r=recs[cur];
+  return "Receta que está mirando ahora: "+(r?r.n+" | ingredientes: "+r.ing.map(x=>x+(has(x)?" (tiene)":" (le falta)")).join(", ")+" | cantidades: "+(r.q||"-")+" | pasos: "+r.st:"ninguna abierta")+"\nDespensa: "+((S.have||[]).join(", ")||"vacía")+"\nRecetas de la app: "+recs.map(x=>x.n).join("; ");
+}
+
+const SYS="Sos Chef Che, ayudante de cocina argentina, cálida y práctica. Hablás en español rioplatense (voseo). La persona está cocinando con las manos ocupadas: respondé corto (máximo 4 oraciones o pasos cortos), sin títulos. Si a una receta le falta un ingrediente, cantidad o paso, usá las herramientas para agregarlo vos misma y avisalo en una línea. Si necesita comprar algo, anotalo con anotar_compras. No inventes recetas que la app no tenga sin avisar.";
+
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+let talk=false,rec=null;
+
+function spk(){talk=!talk;$("spk").textContent=talk?"🔊":"🔇";if(!talk&&window.speechSynthesis)speechSynthesis.cancel()}
+function say(t){if(!talk||!t||!window.speechSynthesis)return; speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t.replace(/[*_#]/g,""));u.lang="es-AR"; speechSynthesis.speak(u)}
+
+function mic(){
+  if(!SR) return cmsg("a", "Tu navegador no tiene dictado por voz. Usá el micrófono de tu teclado.");
+  if(rec){rec.stop();return}
+  rec=new SR();rec.lang="es-AR";
+  rec.onresult=e=>{$("ci").value=e.results[0][0].transcript;send()};
+  rec.onerror=e=>cmsg("a","No pude usar el micrófono ("+(e.error||"error")+"). Probá con el micrófono de tu teclado.");
+  rec.onend=()=>{rec=null; $("mic").textContent="🎤"};
+  try{$("mic").textContent="🔴"; rec.start()}catch(e){rec=null; $("mic").textContent="🎤"}
+}
+
+function misView(){
+  return `<div class="card"><b>Importar receta automáticamente</b><p class="mu">Pegá el texto de una receta, la descripción o la transcripción de un video de YouTube (con el link, si querés). Yo armo todo y vos revisás antes de guardar.</p><textarea id="imp" rows="5" placeholder="Pegá la receta acá..."></textarea><button class="btn" id="impb" onclick="imp()">Armar receta</button> <span class="mu" id="ims"></span></div><div class="card"><b>${D.id?"Editando receta":"Nueva receta propia"}</b><input placeholder="Nombre de la receta" value="${esc(D.n)}" oninput="D.n=this.value"><textarea rows="4" placeholder="Pasos / cómo se hace" oninput="D.st=this.value">${esc(D.st)}</textarea><textarea rows="2" placeholder="Cantidades (ej: 500 g de harina, 2 huevos...)" oninput="D.q=this.value">${esc(D.q)}</textarea><input placeholder="Link de YouTube (opcional)" value="${esc(D.yt)}" oninput="D.yt=this.value"><p class="mu">Ingredientes elegidos: <b id="dc">${D.ing.length}</b>. Tocá para marcar; si no está, escribilo y guardalo como nuevo (queda para tu despensa y tus listas).</p><input id="df" placeholder="Buscá o escribí un ingrediente" value="${esc(D.f)}" oninput="D.f=this.value;dl()"><div class="chips" id="dch">${dc()}</div><button class="btn" onclick="saveM()">Guardar receta</button></div><b>Mis recetas (${(S.mine||[]).length})</b>${(S.mine||[]).length?recs.filter(r=>r.mine).map(recipeCard).join(""):`<p class="mu">Todavía no cargaste ninguna.</p>`}`;
+}
+
+function draw(){
+  build();nav();
+  $("app").innerHTML={rec:recView,mis:misView,pan:panView,not:notView,his:hisView}[tab]();
+}
+draw();
+</script>
+
+<script>
+/* ===== Conexión con Gemini ===== */
+const GK="cfa_key",GM="cfa_model", GDEF="gemini-flash-latest";
+const gkey=()=>{try{return localStorage.getItem(GK)||""}catch(e){return ""}};
+const gmodel=()=>{try{return localStorage.getItem(GM)||GDEF}catch(e){return GDEF}};
+
+const up=s=>Array.isArray(s)?s.map(up):s&&typeof s=="object"?Object.fromEntries(Object.entries(s).map(([k,v])=>[k,k=="type"&&typeof v=="string"?v.toUpperCase():up(v)])):s;
+
+async function gem(contents, o={}){
+  const k=gkey();if(!k)throw {code:"nokey"};
+  const body={contents, generationConfig:{}};
+  if(o.sys)body.systemInstruction={parts:[{text:o.sys}]};
+  if(o.json)body.generationConfig.responseMimeType="application/json";
+  if(o.tools)body.tools=[{functionDeclarations:o.tools.map(t=>({name:t.name, description:t.description, parameters:up(t.inputSchema)}))}];
+  let r,j;
+  try{
+    r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+encodeURIComponent(gmodel())+":generateContent", {method:"POST", headers:{"Content-Type":"application/json","x-goog-api-key":k}, body:JSON.stringify(body)});
+    j=await r.json();
+  }catch(e){throw {code:"net", message: "Sin conexión a internet."}}
+  if(!r.ok)throw {code:r.status==429?"rate_limited":(r.status==400||r.status==403||r.status==404)?"badkey":"err", message: (j.error&&j.error.message)||("Error "+r.status)};
+  return j;
+}
+
+async function run(contents,o){
+  for(let i=0;i<5;i++){
+    const j=await gem(contents, o); const c=j.candidates&&j.candidates[0];
+    const parts=(c&&c.content&&c.content.parts)|| []; const calls=parts.filter(p=>p.functionCall);
+    if(!calls.length)return parts.map(p=>p.text||"").join("").trim();
+    contents.push({role:"model", parts}); const resp=[];
+    for(const p of calls){
+      const t=o.tools.find(x=>x.name==p.functionCall.name);let out;
+      try{out={result:t?await t.execute(p.functionCall.args||{}):"herramienta desconocida"}}catch(e){out={error:String(e.message||e)}}
+      resp.push({functionResponse:{name:p.functionCall.name, response:out}});
+    }
+    contents.push({role:"user", parts:resp});
+  }
+  return "Listo✔";
+}
+
+async function send(){
+  const inp=$("ci"),t=inp.value.trim();if(!t||busy)return;inp.value="";cmsg("u",t);
+  if(!gkey()){cmsg("a","Primero cargá tu clave de Gemini en ⚙️ (arriba a la derecha)."); $("cfg").style.display="block";return}
+  busy=true;const out=cmsg("a", "Pensando...");
+  H.push({role:"user", content:t});H=H.slice(-12); while (H[0]&&H[0].role!="user")H.shift();
+  const ct=H.map((m,i)=>({role:m.role=="user"?"user":"model", parts:[{text:i==H.length-1?ctx()+"\n\nMENSAJE: "+t:m.content}]}));
+  try{
+    const r=await run(ct, {sys:SYS, tools: TL}); 
+    out.textContent=r||"Listo ✔";say(r); H.push({role:"assistant", content:r||"Listo"});
+  }catch(e){
+    out.textContent=e.code=="rate_limited"?"Llegaste al límite gratis por ahora. Esperá un rato y probá de nuevo.":e.code=="badkey"?"Gemini rechazó la clave o el modelo ("+(e.message||"")+"). Revisá.":"Uy, no pude responder. "+(e.message||"");H.pop();
+  }
+  busy=false;
+}
+
+async function imp(){
+  const t=$("imp").value.trim(),st=$("ims"); if(t.length<20) return st.textContent="Pegá más texto.";
+  if(!gkey()) return st.textContent="Primero cargá tu clave en ⚙️ (dentro de Chef Che).";
+  $("impb").disabled=true;st.textContent="Armando...";
+  try{
+    const j=await gem ([{role:"user", parts: [{text: `Extraé la receta del texto. Respondé SOLO JSON: {"n":"nombre","st":"pasos en 2 a 6 oraciones cortas, en español rioplatense","q":"cantidades como texto, o vacío","ing":["ingredientes en minúscula, sin cantidades"]}. Si un ingrediente equivale a uno de esta lista, usá exactamente ese nombre: ${alling.join(", ")}. Ignorá sal y agua.\n\nTEXTO:\n${t.slice(0,12000)}` }]}], {json:true});
+    const r=JSON.parse(j.candidates[0].content.parts.map(p=>p.text||"").join("").replace(/```json|```/g,""));
+    D.n=r.n||"";D.st=r.st||"";D.q=r.q||"";const m=t.match(/https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/\S+/);if(m)D.yt=m[0];
+    D.ing=[...new Set((r.ing||[]).map(clean).filter(Boolean))]; D.ing.forEach(x=>{if(!alling.includes(x))S.extra.push(x)});save();tab="mis";draw(); $("df").scrollIntoView({block:"center"});
+  }catch(e){st.textContent="No pude armarla: "+(e.message||e.code||"probá de nuevo"); $("impb").disabled=false;}
+}
+
+function cfgT(){const c=$("cfg");c.style.display=c.style.display=="block"?"none":"block";$("gk").value=gkey();$("gm").value=gmodel()}
+function cfgS(){try{localStorage.setItem(GK,$("gk").value.trim()); localStorage.setItem(GM,$("gm").value.trim()||GDEF)}catch(e){} $("cfg").style.display="none";cmsg("a","¡Guardado! Ya podés preguntarme.")}
+
+function bkO(){
+  const b=new Blob([JSON.stringify(S)], {type:"application/json"}),a=document.createElement("a");
+  a.href=URL.createObjectURL(b); a.download="cocina-copia-"+tod()+".json";document.body.appendChild(a);a.click();a.remove();
+}
+
+function bkl(f){
+  if(!f)return; const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const d=JSON.parse(r.result); if(!d||typeof d!="object")throw 0;
+      S=Object.assign({have: [], notes: [], hist: [], mine: [], extra:[],ov:{}},d);save();draw();alert("Copia restaurada");
+    }catch(e){alert("Ese archivo no es una copia válida.")}
+  };r.readAsText(f);
+}
+
+if("serviceWorker" in navigator)addEventListener("load", ()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script>
+</body>
+</html>
