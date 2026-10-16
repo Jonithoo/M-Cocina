@@ -56,9 +56,9 @@ summary{cursor:pointer;list-style:none}summary::-webkit-details-marker{display:n
     <input id="gk" type="password" placeholder="Clave de Gemini (empieza con AIza...)" autocomplete="off">
     <p class="mu">Seleccioná el modelo:</p>
     <select id="gm">
-      <option value="gemini-1.5-flash">gemini-1.5-flash (Estable / Rápido)</option>
-      <option value="gemini-2.5-flash">gemini-2.5-flash (Avanzado)</option>
-      <option value="gemini-1.5-pro">gemini-1.5-pro (Máxima capacidad)</option>
+      <option value="gemini-3.8-flash">gemini-3.8-flash (Recomendado)</option>
+      <option value="gemini-3.5-flash">gemini-3.5-flash (Rápido)</option>
+      <option value="gemini-2.5-flash">gemini-2.5-flash</option>
     </select>
     <button class="btn" onclick="cfgS()">Guardar</button>
     <p class="mu" style="margin-top:10px"><b>Copia de seguridad</b></p>
@@ -161,4 +161,41 @@ const R=[
 ["Sándwich de milanesa completo", "Rápidas","nalga, pan francés, lechuga, tomate, huevos, queso muzzarella","Milanesa dorada en pan con lechuga, tomate, huevo y queso."],
 ["Tostado de jamón y queso", "Rápidas","pan de miga, jamón cocido, queso muzzarella, manteca", "Armar el sándwich y tostar en sartén con manteca hasta que derrita el queso."],
 ["Pionono salado", "Rápidas","pionono, jamón cocido, queso cremoso, tomate, huevos, mayonesa","Untar el pionono con queso, rellenar con jamón, tomate y huevo duro, y enrollar."],
-["Ñoquis de calabaza", "P
+["Ñoquis de calabaza", "Pastas","zapallo, harina, huevos, queso rallado, salsa de tomate", "Puré de zapallo con harina y huevo. Cortar y hervir hasta que floten."],
+["Fideos con crema y jamón", "Pastas", "fideos, crema de leche, jamón cocido, queso rallado", "Mezclar los fideos hervidos con crema caliente y jamón en tiras."],
+["Fideos al pesto", "Pastas", "fideos, albahaca, ajo, queso rallado, nueces, aceite de oliva", "Procesar albahaca, ajo, nueces y queso con aceite. Mezclar con los fideos."],
+["Capeletinis en caldo", "Pastas","capeletinis, caldo, queso rallado", "Hervir en caldo 5 min y servir con queso rallado."],
+["Ravioles caseros de ricota", "Pastas","harina, huevos, ricota, espinaca, queso rallado, salsa de tomate", "Masa de harina y huevos, rellenar con ricota y espinaca. Cortar y hervir 4 min."],
+["Polenta con estofado", "Pastas","polenta, salsa de tomate, carne picada, queso rallado", "Cocinar la polenta 5 min, servir con salsa de carne y queso."],
+["Ensalada rusa", "Ensaladas","papas, zanahoria, arvejas, huevos, mayonesa","Hervir y cortar en cubos. Mezclar con mayonesa."],
+["Ensalada criolla", "Ensaladas", "tomate, cebolla, morrón, perejil, aceite de oliva","Cortar todo en cubos y condimentar con aceite y vinagre."],
+["Ensalada mixta", "Ensaladas", "lechuga, tomate, cebolla, zanahoria, huevos", "Mezclar y condimentar con sal, aceite y limón."],
+["Pastafrola","Postres","harina, manteca, huevos, azúcar, dulce de membrillo, limón", "Masa sablée, rellenar con membrillo y hacer enrejado. Hornear 35 min."],
+["Pastelitos de membrillo", "Postres", "tapas de hojaldre, dulce de membrillo, azúcar, huevos", "Rellenar y cerrar, pincelar con huevo y hornear. Bañar con almíbar."],
+["Lemon pie","Postres","galletitas de vainilla, manteca, limón, leche condensada, huevos, azúcar", "Base de galletitas con manteca, crema de limón y merengue. Hornear breve."],
+["Bizcochuelo", "Postres","harina, huevos, azúcar, manteca, leche, polvo de hornear", "Batir huevos con azúcar, sumar harina y hornear 30 min."],
+["Torta de ricota","Postres","ricota, huevos, azúcar, limón, harina, manteca", "Mezclar la crema de ricota, volcar sobre la masa y hornear 45 min."],
+["Ensalada de frutas", "Postres", "naranja, banana, manzana, durazno, azúcar","Cortar las frutas, mezclar con jugo de naranja y azúcar."],
+["Bizcochitos de grasa","Merienda","harina, grasa, sal, agua", "Amasar, estirar y plegar para hojaldrar. Cortar y hornear."],
+["Pan casero", "Merienda","harina, levadura, sal, agua","Amasar, dejar levar 1 h, formar y hornear 35 min."],
+["Mate cocido con tostadas", "Merienda", "mate cocido, pan, manteca, dulce de leche", "Tostar el pan, untar con manteca y dulce de leche."],
+["Tortilla santiagueña", "Tortillas", "harina, grasa, sal, agua", "Amasar con agua tibia y grasa, dejar reposar. Estirar discos y cocinar en plancha o sartén hasta que se doren."],
+["Tortillas al rescoldo con chicharrones", "Tortillas","harina, grasa, chicharrones, sal, agua","Amasar con chicharrones, formar discos y cocinar entre las brasas, sacudiéndolas al sacar."],
+["Tortillas fritas de zapallo","Tortillas","zapallo, harina, huevos, azúcar, aceite", "Mezclar el puré de zapallo con harina y huevo. Freír cucharadas y servir con azúcar."],
+["Tortilla de papas y chorizo","Tortillas","papas, huevos, cebolla, chorizo, aceite", "Freír papas, cebolla y chorizo en rodajas. Mezclar con huevos y cuajar de ambos lados."],
+["Locro de trigo", "Guisos", "trigo pelado, porotos, zapallo, panceta, chorizo colorado, falda, cebolla","Remojar trigo y porotos la noche anterior. Hervir con las carnes 3 h, sumar el zapallo al final."],
+["Locro express (olla a presión)","Guisos", "maíz blanco, porotos, zapallo, panceta, chorizo colorado, falda, cebolla de verdeo, pimentón","Con remojo previo, cocinar todo en olla a presión 45 min. Terminar con salsa de verdeo y pimentón."],
+["Carne a la riojana", "Regionales", "carne, papas, cebolla, morrón, tomate, vino tinto, comino, pimentón, ají molido, orégano", "Dorar la carne en trozos, rehogar cebolla y morrón, sumar tomate, vino y especias. Cocinar tapado 1.5 h y agregar las papas al final."],
+["Pechito de cerdo a la riojana", "Regionales","pechito de cerdo, cebolla, morrón, tomate, vino tinto, ajo, orégano", "Dorar el pechito, sumar vegetales, vino y orégano. Cocinar tapado a fuego bajo 2 h."],
+["Puré de papas clásico", "Purés","papas, leche, manteca, nuez moscada", "Hervir las papas, pisar y mezclar con leche tibia y manteca."],
+["Puré de calabaza (zapallo)","Purés", "zapallo, manteca, nuez moscada, queso rallado", "Hervir o hornear el zapallo, pisar y mezclar con manteca y nuez moscada."],
+["Puré mixto de papa y calabaza","Purés","papas, zapallo, leche, manteca", "Hervir ambas verduras, pisar y unir con leche y manteca."],
+["Puré de batata", "Purés","batata, manteca, leche, nuez moscada", "Hervir la batata, pisar y mezclar con manteca y leche."],
+["Puré de papas con queso gratinado", "Purés","papas, leche, manteca, queso rallado, queso muzzarella","Hacer el puré, cubrir con quesos y gratinar 10 min."],
+["Puré de zanahoria","Purés", "zanahoria, papas, manteca, leche", "Hervir zanahoria y papa, pisar con manteca y leche."],
+["Puré de mandioca","Purés","mandioca, manteca, leche, queso cremoso", "Hervir la mandioca hasta que esté tierna, pisar con manteca, leche y queso."],
+["Puré de coliflor","Purés","coliflor, papas, manteca, leche", "Hervir coliflor y papa, procesar con manteca y leche."],
+["Pollo al disco con verduras", "Al disco", "pollo, papas, cebolla, morrón, zanahoria, vino blanco, ajo", "Dorar el pollo en el disco, sumar verduras y vino. Tapar y cocinar 50 min a fuego medio."],
+["Carne al disco con verduras", "Al disco","carne, papas, cebolla, morrón, zanahoria, vino tinto, salsa de tomate", "Sellar la carne, sumar verduras, vino y salsa. Cocinar tapado 1.5 h."],
+["Bondiola al disco", "Al disco", "bondiola, papas, cebolla, morrón, vino tinto, miel, ajo", "Dorar la bondiola, agregar verduras, vino y miel. Cocinar tapado 2 h."],
+["Paella al disco","Al disco","arroz, pollo, mariscos, morrón, arvejas, cebolla, pimentón, caldo", "Dorar pollo y verduras, sumar arroz y caldo con pimentón, agregar los mariscos al final. Cocinar 25 min."],
